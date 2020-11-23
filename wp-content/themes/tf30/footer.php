@@ -6,18 +6,22 @@
 
 			<nav class="footer-nav">
 				<ul class="footer-list">
-					<li class="menu-item"><a href="#">メニュー1</a></li>
-					<li class="menu-item"><a href="#">メニュー2</a></li>
-					<li class="menu-item"><a href="#">メニュー3</a></li>
-					<li class="menu-item"><a href="#">メニュー4</a></li>
-					<li class="menu-item"><a href="#">メニュー5</a></li>
+            　　　<?php
+                wp_nav_menu(
+                //.header-listを置き換えて、PC用メニューを動的に表示する
+                array(
+                'depth' => 1,
+                'theme_location' => 'global', //グローバルメニューをここに表示すると指定
+                'container' => 'false',
+                'menu_class' => 'header-list',
+                )
+                );
+                ?>
 				</ul>
 			</nav>
 
 		</div><!-- /inner -->
 	</div><!-- /footer-menu -->
-
-
 
 	<!-- footer -->
 	<footer id="footer">
@@ -28,7 +32,37 @@
 
 		</div><!-- /inner -->
 	</footer><!-- /footer -->
+    <?php if(is_single()): ?>
+    <!-- footer-sns -->
+    <div class="footer-sns">
+    <div class="inner">
 
+    <div class="footer-sns-head">この記事をシェアする</div><!-- /footer-sns-head -->
+
+    <nav class="footer-sns-buttons">
+    <ul>
+    <li><a class="m_twitter"
+    href="https://twitter.com/share?url=https://example.com/archive/123/&text=記事のタイトルが入ります" rel="nofollow"
+    target="_blank"><img src="<?php echo get_template_directory_uri() ?>/img/icon-twitter.png" alt=""></a>
+    </li>
+    <li><a class="m_facebook" href="https://www.facebook.com/share.php?u=https://example.com/archive/123/"
+    rel="nofollow" target="_blank"><img src="<?php echo get_template_directory_uri() ?>/img/icon-facebook.png"
+    alt=""></a></li>
+    <li><a class="m_hatena"
+    href="https://b.hatena.ne.jp/add?mode=confirm&url=https://example.com/archive/123/&title=記事のタイトルが入ります"
+    rel="nofollow" target="_blank"><img src="<?php echo get_template_directory_uri() ?>/img/icon-hatena.png"
+    alt=""></a></li>
+    <li><a class="m_line" href="https://social-plugins.line.me/lineit/share?url=https://example.com/archive/123/"
+    rel="nofollow" target="_blank"><img src="<?php echo get_template_directory_uri() ?>/img/icon-line.png"
+    alt=""></a></li>
+    <li><a class="m_pocket" href="https://getpocket.com/edit?url=https://example.com/archive/123/" rel="nofollow"
+    target="_blank"><img src="<?php echo get_template_directory_uri() ?>/img/icon-pocket.png" alt=""></a></li>
+    </ul>
+    </nav><!-- /footer-sns-buttons -->
+
+    </div><!-- /inner -->
+    </div><!-- /footer-sns -->
+    <?php endif; ?>
 	<div class="floating">
 		<a href="#"><i class="fas fa-chevron-up"></i></a>
     </div>

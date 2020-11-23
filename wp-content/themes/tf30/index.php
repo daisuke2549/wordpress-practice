@@ -31,47 +31,7 @@
 <?php get_header(); ?>
 
 
-	<!-- pickup -->
-	<div id="pickup">
-		<div class="inner">
-
-			<div class="pickup-items">
-
-				<a href="#" class="pickup-item">
-					<div class="pickup-item-img">
-						<img src="<?php echo get_template_directory_uri() ?>/img/pickup1.png" alt="">
-						<div class="pickup-item-tag">カテゴリ名</div><!-- /pickup-item-tag -->
-					</div><!-- /pickup-item-img -->
-					<div class="pickup-item-body">
-						<h2 class="pickup-item-title">記事のタイトルが入ります記事のタイトルが入ります記事のタイトルが入ります</h2><!-- /pickup-item-title -->
-					</div><!-- /pickup-item-body -->
-				</a><!-- /pickup-item -->
-
-				<a href="#" class="pickup-item">
-					<div class="pickup-item-img">
-						<img src="<?php echo get_template_directory_uri() ?>/img/pickup2.png" alt="">
-						<div class="pickup-item-tag">カテゴリ名</div><!-- /pickup-item-tag -->
-					</div><!-- /pickup-item-img -->
-					<div class="pickup-item-body">
-						<h2 class="pickup-item-title">記事のタイトルが入ります記事のタイトルが入ります記事のタイトルが入ります</h2><!-- /pickup-item-title -->
-					</div><!-- /pickup-item-body -->
-				</a><!-- /pickup-item -->
-
-				<a href="#" class="pickup-item">
-					<div class="pickup-item-img">
-						<img src="<?php echo get_template_directory_uri() ?>/img/pickup3.png" alt="">
-						<div class="pickup-item-tag">カテゴリ名</div><!-- /pickup-item-tag -->
-					</div><!-- /pickup-item-img -->
-					<div class="pickup-item-body">
-						<h2 class="pickup-item-title">記事のタイトルが入ります記事のタイトルが入ります記事のタイトルが入ります</h2><!-- /pickup-item-title -->
-					</div><!-- /pickup-item-body -->
-				</a><!-- /pickup-item -->
-
-			</div><!-- /pickup-items -->
-
-		</div><!-- /inner -->
-	</div><!-- /pickup -->
-
+<?php get_template_part('/template-parts/pickup_by_tag'); ?>
 
 	<!-- content -->
 	<div id="content">
@@ -109,13 +69,8 @@ echo '<img src="' . esc_url(get_template_directory_uri()) . '/img/noimg.png" alt
 <!-- entry-item-body -->
 <div class="entry-item-body">
 <div class="entry-item-meta">
-<?php
-// カテゴリー１つ目の名前を表示
-$category = get_the_category();
-if ($category[0] ) {
-echo '<div class="entry-item-tag">' . $category[0]->cat_name . '</div><!-- /entry-item-tag -->';
-}
-?>
+<!-- trueを引数として渡すとリンク付き、falseを渡すとリンクなし -->
+<div class="entry-item-tag"><?php my_the_post_category( false ); ?></div><!-- /entry-item-tag -->
 <!-- 公開日時を動的に表示する -->
 <time class="entry-item-published" datetime="<?php the_time('c'); ?>"><?php the_time('Y/n/j'); ?></time><!-- /entry-item-published -->
 </div><!-- /entry-item-meta -->
@@ -132,23 +87,7 @@ endwhile;
 </div><!-- /entries -->
 <?php endif; ?>
 
-<?php if (paginate_links() ) : //ページが1ページ以上あれば以下を表示 ?>
-<!-- pagenation -->
-<div class="pagenation">
-<?php
-echo
-paginate_links(
-array(
-'end_size' => 1,
-'mid_size' => 1,
-'prev_next' => true,
-'prev_text' => '<i class="fas fa-angle-left"></i>',
-'next_text' => '<i class="fas fa-angle-right"></i>',
-)
-);
-?>
-</div><!-- /pagenation -->
-<?php endif; ?>
+<?php get_template_part('template-parts/pagenation'); ?>
 </main><!-- /primary -->
 
 <?php get_sidebar(); ?>
