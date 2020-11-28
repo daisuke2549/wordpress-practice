@@ -100,6 +100,7 @@ array(
 )
 );
 ?>
+<?php echo do_shortcode(['btn']); ?>
 <!-- entry-tag-items -->
 <?php $post_tags = get_the_tags(); ?>
 <div class="entry-tag-items">

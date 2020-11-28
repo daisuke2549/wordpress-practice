@@ -130,4 +130,117 @@ function my_get_post_tags( $id = 0 ) {
     }
     }
     }
+/**
+* ウィジェットの登録
+*
+* @codex http://wpdocs.osdn.jp/%E9%96%A2%E6%95%B0%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9/register_sidebar
+*/
+function my_widget_init() {
+    register_sidebar(
+    array(
+    'name' => 'サイドバー', //表示するエリア名
+    'id' => 'sidebar', //id
+    'before_widget' => '<div id="%1$s" class="widget %2$s">',
+    'after_widget' => '</div>',
+    'before_title' => '<div class="widget-title">',
+    'after_title' => '</div>',
+    )
+    );
+    }
+    add_action( 'widgets_init', 'my_widget_init' );
+/**
+* カスタムフィールドを使ってアクセス数を取得する（特定記事のアクセス数確認用）
+*
+* @param integer $id 投稿id.
+* @return void
+*/
+//アクセス数を取得
+function get_post_views( $id = 0 ){
+    global $post;
+    //引数が渡されなければ投稿IDを見るように設定
+    if ( 0 === $id ) {
+    $id = $post->ID;
+    }
+    $count_key = 'view_counter';
+    $count = get_post_meta($id, $count_key, true);
+    
+    if($count === ''){
+    delete_post_meta($id, $count_key);
+    add_post_meta($id, $count_key, '0');
+    }
+    return $count;
+    }
+    
+    /**
+    * アクセスカウンター
+    *
+    * @return void
+    */
+    function set_post_views() {
+    global $post;
+    $count = 0;
+    $count_key = 'view_counter';
+    
+    if($post){
+    $id = $post->ID;
+    $count = get_post_meta($id, $count_key, true);
+    }
+    
+    if($count === ''){
+    delete_post_meta($id, $count_key);
+    add_post_meta($id, $count_key, '1');
+    }elseif( $count > 0 ){
+    if(!is_user_logged_in()){ //管理者（自分）の閲覧を除外
+    $count++;
+    update_post_meta($id, $count_key, $count);
+    }
+    }
+    //$countが0のままの場合（404や該当記事の検索結果が0件の場合）は何もしない。
+    }
+    add_action( 'template_redirect', 'set_post_views', 10 );
+    
+/**
+
+* 検索結果から固定ページを除外する
+
+* @param string $search SQLのWHERE句の検索条件文
+
+* @param object $wp_query WP_Queryのオブジェクト
+
+* @return string $search 条件追加後の検索条件文
+
+*/
+
+function my_posts_search( $search, $wp_query ){
+
+    //検索結果ページ・メインクエリ・管理画面以外の3つの条件が揃った場合
+  
+  if ( $wp_query->is_search() && $wp_query->is_main_query() && !is_admin() ){
+  
+      // 検索結果を投稿タイプに絞る
+  
+    $search .= " AND post_type = 'post' ";
+  
+    return $search;
+  
+  }
+  
+    return $search;
+  
+  }
+  
+  add_filter('posts_search','my_posts_search', 10, 2);
+  /**
+* ボタンのショートコード
+*
+* @param array $atts ショートコードの引数.
+* @param string $content ショートコードのコンテンツ.
+* @return string ボタンのHTMLタグ.
+* @codex https://wpdocs.osdn.jp/%E9%96%A2%E6%95%B0%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9/add_shortcode
+*/
+function my_shortcode( $atts, $content = '' ) {
+    return '<div class="entry-btn"><a class="btn" href="' . $atts['link'] . '">' . $content . '</a></div><!-- /entry-btn -->';
+    }
+    add_shortcode( 'btn', 'my_shortcode' );
+  
 ?>

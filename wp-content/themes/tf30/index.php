@@ -65,7 +65,6 @@ echo '<img src="' . esc_url(get_template_directory_uri()) . '/img/noimg.png" alt
 }
 ?>
 </div><!-- /entry-item-img -->
-
 <!-- entry-item-body -->
 <div class="entry-item-body">
 <div class="entry-item-meta">
@@ -90,8 +89,12 @@ endwhile;
 <?php get_template_part('template-parts/pagenation'); ?>
 </main><!-- /primary -->
 
-<?php get_sidebar(); ?>
-
+<!-- secondary -->
+<aside id="secondary">
+<?php if ( is_active_sidebar( 'sidebar' ) ) : ?>
+<?php dynamic_sidebar( 'sidebar' ); ?>
+<?php endif; ?>
+</aside><!-- secondary -->
 
 		</div><!-- /inner -->
 	</div><!-- /content -->
