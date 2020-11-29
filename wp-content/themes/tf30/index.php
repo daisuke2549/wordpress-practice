@@ -107,5 +107,9 @@ endwhile;
 	<script src="js/script.js"></script>
 
 </body>
-
+<!-- /primary -->
+DB名*xs300502_wp2
+ユーザー名*xs300502_wp2
+パスワード*4q2wlbif2b
+<!-- /primary -->
 </html>
